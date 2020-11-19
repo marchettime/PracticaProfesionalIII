@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}500{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Error en el servidor.</h1>
+    {% for error in errores %}
+    <p>{{error}}</p>
+    {% endfor %}
+</div>
+{% endblock %}

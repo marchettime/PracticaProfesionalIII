@@ -1,0 +1,119 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Propuestas vigentes{% endblock %}
+
+
+{% block page_content %}
+<script>
+    function enviar() {
+        $('#form-submit').click(); // submitting the form
+    }
+
+    function cancelarPropuesta() {
+        $('#form-submit').click();
+    }
+
+
+</script>
+<main role="main">
+
+    <!--Si el rubro es el mismo, colgar una propuesta a la vez, por el ID, botón a para contestar, y listo
+        id, nombrePropuesta, rubro, cantidadDias, descripcion, monto, vencimiento-->
+    <div class="container marketing">
+
+        {% if propuestas is none or propuestas|length == 0%}
+        <div class="row featurette">
+            <div class="col-md-9">
+                <h3><span class="glyphicon glyphicon-thumbs-down" style="color: orangered" aria-hidden="true"></span> Oops!</h3>
+                <p>Por el momento, no hay propuestas vigentes... Pero a no desesperar!!</p>
+                <p>Muchas personas están enviandonos sus necesidades, con lo que, te notificaremos apenas tengamos una que se ajuste a los servicios que prestas</p>
+            </div>
+            <div class="col-md-3">
+                <img class="img-thumbnail " src="../static/await.gif" width="300" />
+            </div>
+        </div>
+        {% else %}
+        <div>
+            {% for prop in propuestas %}
+            <div class="row featurette">
+                <div class="col-md-9">
+                    <h2 class="featurette-heading">{{prop.nombrePropuesta}} | <span class="text-muted">{{prop.rubro}}</span></h2>
+
+                </div>
+                <!--<div class="col-md-2">
+        <img class="img-thumbnail " src="../static/hero-grey.jpg" />
+    </div>-->
+                <div class="col-md-3" style="text-align: center">
+
+                    <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#{{ prop.id }}Ver">
+                        <span class="glyphicon glyphicon-zoom-in" style="color: green" aria-hidden="true"></span> Ver +
+                    </button>
+                    {% if prop.estado%}
+                    <hr class="featurette-divider">
+
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ prop.id }}Eliminar"><span class="glyphicon glyphicon-trash" style="color: darkred" aria-hidden="true"></span>  Descartar</button>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+</main>
+
+    {% for prop in propuestas %}
+<!-- Modal Proponer (con acciones)-->
+<div class="modal fade" id="{{ prop.id }}Ver" role="dialog" aria-labelledby="ConfirmarModal">
+    <div class="modal-dialog modal-lg  modal-dialog-scrollable">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="ConfirmarModal">PROPoné a {{prop.nombrePropuesta}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p class="lead">Presupuesto disponible: AR{{prop.monto}} </p>
+                    <h4>Descripcion de Propuesta</h4>
+                    <p><i>{{prop.descripcion}}</i></p>
+                    <p style="color: dimgray;text-align: center"> Esta propuesta finaliza el <b style="color: darkblue"><i>{{prop.vencimiento}} </i></b></p>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Volver</button>
+                <a class="btn btn-danger" href="{{url_for('VerREPROPuesta', id=prop.id)}}">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Ver Respuestas
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal Cancelar-->
+<div class="modal fade" id="{{ prop.id }}Eliminar" role="dialog" aria-labelledby="CancelarModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="exampleModalLongTitle">Borrar Propuesta</h4>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro que querés eliminar <i>"{{prop.nombrePropuesta}}"</i> y dejar pasar tu PROPuesta?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Mmmm... No</button>
+                <a class="btn btn-danger" href="{{url_for('EliminarPropuesta', id=prop.id)}}">
+                    <span class="glyphicon glyphicon-floppy-remove" style="color: darkred" aria-hidden="true"></span>Si, Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+         {% endfor %}
+{% endblock %}

@@ -1,0 +1,166 @@
+﻿ {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Propuestas vigentes{% endblock %}
+
+
+{% block page_content %}
+<script>
+    function enviar() {
+        $('#form-submit').click(); // submitting the form
+    }
+
+    function cancelarPropuesta() {
+        $('#form-submit').click();
+    }
+
+
+</script>
+<main role="main">
+
+    <!--Si el rubro es el mismo, colgar una propuesta a la vez, por el ID, botón a para contestar, y listo
+        id, nombrePropuesta, rubro, cantidadDias, descripcion, monto, vencimiento-->
+    <div class="container marketing">
+
+        {% if propuestas is none or propuestas|length == 0%}
+        <div class="row featurette">
+            <div class="col-md-9">
+                <h3><span class="glyphicon glyphicon-thumbs-down" style="color: orangered" aria-hidden="true"></span> Lo sentimos!</h3>
+                <p>Por el momento, no hay propuestas vigentes... Pero a no desesperar!!</p>
+                <p>Muchas personas están enviandonos sus necesidades, con lo que, te notificaremos apenas tengamos una que se ajuste a los servicios que prestas</p>
+            </div>
+            <div class="col-md-3">
+                <img class="img-thumbnail " src="../static/await.gif" width="300" />
+            </div>
+        </div>
+        {% else %}
+        <div>
+            {% for prop in propuestas %}
+            <div class="row featurette">
+                <div class="col-md-9">
+                    <h2 class="featurette-heading">{{prop.nombrePropuesta}} - <small class="text-muted">{{prop.rubro}}</small></h2>
+                    <p class="lead">Presupuesto disponible: AR{{prop.monto}} </p>
+                    <h4>Descripcion de Propuesta</h4>
+                    <p><i>{{prop.descripcion}}</i></p>
+                    {% if prop.vencimiento == 1 %}
+                    <small style="color: darkred; text-align: center"> VENCE HOY</small>
+                    {% else %}
+                    <small style="color: dimgray;text-align: center"> Esta propuesta vence en {{prop.vencimiento}} días</small>
+
+                    {% endif %}
+                </div>
+                <div class="col-md-2">
+                    <img class="img-thumbnail " src="../static/hero-grey.jpg" />
+                </div>
+                <div class="col-md-1" style="text-align: center">
+
+                    <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#{{ prop.id }}Proponer">
+                        <span class="glyphicon glyphicon-thumbs-up" style="color: green" aria-hidden="true"></span> Proponer
+                    </button>
+                    <hr class="featurette-divider">
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ prop.id }}Cancelar"><span class="glyphicon glyphicon-eye-close" style="color: darkred" aria-hidden="true"></span>  Descartar</button>
+
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+</main>
+
+    {% for prop in propuestas %}
+<!-- Modal Proponer (con acciones)-->
+<div class="modal fade" id="{{ prop.id }}Proponer" role="dialog" aria-labelledby="ConfirmarModal">
+    <div class="modal-dialog modal-lg  modal-dialog-scrollable">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="ConfirmarModal">PROPoné a {{prop.nombrePropuesta}}</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('ListarPropuestas') }}">
+                    <div class="form-row" hidden="hidden">
+
+                        {{ formModal.hidden_tag() }}
+
+                        {{formModal.id(value=prop.id)}}
+                    </div>
+
+                    <div class="form-row">
+                        {{ formModal.precio.label }}
+                        <div class="input-group">
+                            <div class="input-group-addon">AR$</div>
+                            {{ formModal.precio(class_="form-control") }}
+
+                            <div class="input-group-addon">	.00			</div>
+                        </div>
+                        <small>Recordá que su presupuesto es de {{prop.monto}}</small>
+                        {% for error in formModal.precio.errors %}
+                        <br>
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-row">
+                        {{ formModal.vigencia.label }}
+                        <div class="input-group">
+                            <div class="input-group-addon">Esperamos el contacto en </div>
+                            {{ formModal.vigencia(class_="form-control", value=10) }}
+
+                            <div class="input-group-addon">	DIAS			</div>
+                        </div>
+                        <small>TIP: Durante cuanto tiempo mantendrás el valor. El máximo establecido es 45 días corridos.</small>
+                        {% for error in formModal.vigencia.errors %}
+                        <br>
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-row">
+                        <span>{{ formModal.comentario.label }}</span>
+                        {{formModal.comentario(class_="form-control", cols="50", rows="5")}}
+                        <div>
+                            {% for error in formModal.comentario.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {{ formModal.submit(hidden='true', id='form-submit')  }}
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Volver</button>
+                <button type="button" class="btn btn-success success" id="modal-confirm" onclick="enviar()"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>PROP YA!</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal Cancelar-->
+<div class="modal fade" id="{{ prop.id }}Cancelar" role="dialog" aria-labelledby="CancelarModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="exampleModalLongTitle">Descatar Propuesta</h4>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro que querés descartar <i>"{{prop.nombrePropuesta}}"</i> y dejar pasar tu PROPuesta?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Mmmm... No</button>
+                <a class="btn btn-danger" href="{{url_for('CancelarPropuesta', id=prop.id)}}">
+                    <span class="glyphicon glyphicon-floppy-remove" style="color: darkred" aria-hidden="true"></span>Si, Descartar
+                </a>
+                <!--<button type="button" class="btn btn-danger" id="modal-confirm" onclick="CancelarPropuesta"><span class="glyphicon glyphicon-floppy-remove" style="color: darkred" aria-hidden="true"></span>Si, Descartar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+         {% endfor %}
+{% endblock %}

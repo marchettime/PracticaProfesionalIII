@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}¡SIN PERMISO!{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9">
+				<h1>No tenés permisos para estar acá.</h1>
+				{% if session['username'] %}
+
+				{% if session['rolUsuario'] == 'E' %}
+				<a href="/HomeEmpresa" class="btn btn-info">Volver a Inicio</a>
+				{% else %}
+				<a href="/HomeCliente" class="btn btn-info">Volver a Inicio</a>
+
+				{% endif %}
+
+				{% else %}
+
+				<a href={{ url_for('Ingresar') }} class="btn btn-info">Ingresar</a>
+				{% endif %}
+			</div>
+			<div class="col-sm-3">
+
+				<img class="img img-responsive" src="../static/stop.gif" />
+			</div>
+		</div>
+	</div>
+
+
+		
+	</div>
+	{% endblock %}

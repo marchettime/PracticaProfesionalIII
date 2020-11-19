@@ -1,0 +1,54 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}PROPOS↑ | Crear PROpuesta{% endblock %}
+
+{% block page_content %}
+
+<main role="main">
+    <form method="POST" action="{{ url_for('GrabarPropuesta', form = form) }}">
+        <!--El urlfor apunta a la funcion EN PYTHON-->
+
+        <div class="container marketing">
+            <div class="row featurette">
+                <div class="col-md-8">
+                    <h2 class="featurette-heading">Confirmá los datos de tu pedido de PROPuesta <span class="text-muted">{{form.nombrePropuesta.data}}</span></h2>
+                    <p class="lead"> Rubro: <i>{{form.rubro(disabled=True)}}</i></p>
+                    <p class="lead"> Vigencia de la PROP: <i>{{form.cantidadDias.data}}</i> días</p>
+                    <p class="lead"> Monto aproximado del Presupuesto: $<i>{{'%0.2f'|format(form.precio.data|float)}}</i></p>
+                    <p class="lead"> Detalle: </p><p> <small>{{form.descripcion.data}}</small></p>
+                    
+                </div>
+                <div class="col-md-4">
+                    <img class="img-thumbnail img-responsive" src="../static/checklistgif.gif" width="150" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <input action="action" class="btn btn-danger"
+                           onclick="window.history.go(-1); return false;"
+                           type="submit"
+                           value="Volver y Modificar" />
+
+                </div>
+
+                <div class="col-md-4">               </div>
+                <div class="col-md-4">
+
+                    <button type=submit class="btn btn-success">
+
+                        <span class="glyphicon glyphicon-send" aria-hidden="true">          </span>          Continuar
+                    </button>
+                    <!--<a class="btn btn-success">  Enviar!</a>-->
+
+
+                </div>
+
+            </div>
+        </div>
+        <p></p>
+    </form>
+</main>
+
+{% endblock %}

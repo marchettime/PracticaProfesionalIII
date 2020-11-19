@@ -1,0 +1,24 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% if rta.OK %}
+{% block title %}PROPOS↑ | PROPuesta Enviada!{% endblock %}
+
+{% block page_content %}
+<div class="jumbotron">
+    <div class="container">
+        <main role="main">
+            <h3> La propuesta fue grabada con exito!</h3>
+            <p> Ya podes volver a tu portada o ver si hay PROPuestas a tu pedido!</p>
+        </main>
+    </div>
+</div>
+        {% endblock %}
+        {% else %}
+<div class="jumbotron">
+    <div class="container">
+        <h2 style="color: red">Error producido al intentar grabar la PROP</h2>
+        <p><small> {{rta.mensaje}}</small> </p>
+    </div>
+</div>
+        {% endif %}

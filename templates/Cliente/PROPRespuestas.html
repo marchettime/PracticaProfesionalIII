@@ -1,0 +1,122 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Propuestas vigentes{% endblock %}
+
+
+{% block page_content %}
+<script>
+
+
+</script>
+<main role="main">
+
+    <!--Si el rubro es el mismo, colgar una propuesta a la vez, por el ID, botón a para contestar, y listo
+        id, nombrePropuesta, rubro, cantidadDias, descripcion, monto, vencimiento-->
+    <!--<div class="container marketing">-->
+    {% if respuestas == 0 %}
+    <div>
+        <div class="row featurette">
+            <div class="col-md-9">
+                <h3><span class="glyphicon glyphicon-thumbs-down" style="color: orangered" aria-hidden="true"></span> Lo sentimos!</h3>
+                <p>Por el momento, no hay REPROPuestas vigentes... Pero a no desesperar!!</p>
+                <p>Constantemente entran empresas y profesionales que pueden llegar a REPROPonerte!</p>
+            </div>
+            <div class="col-md-3">
+                <img class="img-thumbnail " src="../static/await.gif" width="300" />
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div id="accordion" class="card-group">
+
+        {% for resp in respuestas %}
+
+
+        {% if resp.aceptaProp %}
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{resp.reproId}}Desp" aria-expanded="false" aria-controls="collapseExample">
+                        REPROPuesta de <b>{{resp.nombreEmpresa}}</b> por {{resp.montoRespuesta}}
+                    </button>
+                </p>
+            </div>
+            <div class="collapse" id="{{resp.reproId}}Desp">
+                <div class="card card-body">
+                    <p>Esta REPROPuesta fue respondida el {{resp.fechaMovimiento}} y tiene vigencia hasta el {{resp.vencimiento}}</p>
+                    {% if resp.comentario %}
+                    <p>{{resp.comentario}}</p>
+                    {% else %}
+                    <p><i>No han dejado comentarios y/o recomendaciones para tu PROPuesta</i></p>
+                    {% endif %}
+
+                    {% if resp.montoRespuesta|int <= resp.montoOriginal|int %}
+                    <p style="color: forestgreen"><i>Esta propuesta se ajusta a tu Presupuesto de {{resp.montoOriginal}}</i></p>
+                    {% else %}
+                    {% if resp.montoRespuesta == 0 %}
+                    <p style="color: darkred"><i>Esta propuesta <b>NO </b>se ajusta a tu Presupuesto por {{resp.montoRespuesta - resp.montoOriginal}}</i></p>
+                    {% else %}
+                    <p style="color: darkred"><i>Esta propuesta <b>FUE RECHAZADA</b></i></p>
+
+                    {% endif %}
+
+                    {% endif %}
+                    <div style="text-align: center" class="card-footer text-muted">
+                        {% if resp.aceptaProp %}
+                        <a class="btn btn-primary btn-sm" href="
+                           to:{{resp.mailRespuesta}}" role="button"><span class="glyphicon glyphicon-envelope" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+                        {% else %}
+
+                        <a style="color: darkred" class="btn btn-primary btn-sm disabled" href="#" role="button" data-toggle="tooltip" data-placement="top" title="Esta propuesta no fue aceptada, <p>por lo que, no podrás contactarte</p>"><span class="glyphicon glyphicon-zoom-in" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card text-white bg-danger mb-3">
+
+
+            <div class="card-header">
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{resp.reproId}}Desp" aria-expanded="false" aria-controls="collapseExample">
+                        REPROPuesta de <b>{{resp.nombreEmpresa}}</b>
+                    </button>
+                </p>
+            </div>
+            <div class="collapse" id="{{resp.reproId}}Desp">
+                <div class="card card-body">
+                    <p>Esta REPROPuesta fue respondida el {{resp.fechaMovimiento}} y tiene vigencia hasta el {{resp.vencimiento}}</p>
+                    {% if resp.comentario %}
+                    <p>{{resp.comentario}}</p>
+                    {% else %}
+                    <p><i>No han dejado comentarios y/o recomendaciones para tu PROPuesta</i></p>
+                    {% endif %}
+
+
+
+                    <p style="color: darkred"><i>Esta propuesta <b>FUE RECHAZADA</b></i></p>
+
+
+                    <div style="text-align: center" class="card-footer text-muted">
+                        {% if resp.aceptaProp %}
+                        <a class="btn btn-primary btn-sm" href="#" role="button"><span class="glyphicon glyphicon-envelope" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+                        {% else %}
+
+                        <a style="color: darkred" class="btn btn-primary btn-sm disabled" href="#" role="button" data-toggle="tooltip" data-placement="top" title="Esta propuesta no fue aceptada, <p>por lo que, no podrás contactarte</p>"><span class="glyphicon glyphicon-zoom-in" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <!--</div>-->
+    {% endif %}
+</main>
+{% endblock %}

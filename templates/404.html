@@ -1,0 +1,28 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Oops!{% endblock %}
+
+{% block page_content %}
+
+    <h1>Recurso no encontrado.</h1>
+    <main role="main">
+
+        <div class="container marketing">
+
+            <div class="row featurette">
+                <div class="col-md-9">
+                    <h3><span class="glyphicon glyphicon-thumbs-down" style="color: orangered" aria-hidden="true"></span> Oops!</h3>
+                    <p>¡La página que buscas, no existe!</p>
+                    <p></p>
+                    <p>No te preocupes, puede pasar...</p>
+                    <button type="button" class="btn btn-success success" id="modal-confirm" onclick="/"><span class="glyphicon glyphicon-home" style="color: steelblue" aria-hidden="true"></span>Volvamos a Casa</button>
+                </div>
+                <div class="col-md-3">
+                    <img class="img-thumbnail " src="../static/sorprise.gif" width="400" />
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+        {% endblock %}
