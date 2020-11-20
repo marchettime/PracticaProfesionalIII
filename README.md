@@ -5,7 +5,7 @@
 ## Pasos para componer la aplicación:
  1. Clonar el proyecto:
 	```
-	git clone https://github.com/marchettime/ProyectoFinal-ProposUp-v1.git
+	git clone https://github.com/marchettime/PracticaProfesionalIII.git
 	```
  2. Ingresar al folder "ProyectoFinal-ProposUp-v1"
  3. Ingresar por comando: 
