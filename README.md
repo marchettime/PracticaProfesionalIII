@@ -7,7 +7,7 @@
 	```
 	git clone https://github.com/marchettime/PracticaProfesionalIII.git
 	```
- 2. Ingresar al folder "ProyectoFinal-ProposUp-v1"
+ 2. Ingresar al folder "PracticaProfesionalIII"
  3. Ingresar por comando: 
 	```
 	docker-compose up
