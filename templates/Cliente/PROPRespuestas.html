@@ -64,8 +64,7 @@
                     {% endif %}
                     <div style="text-align: center" class="card-footer text-muted">
                         {% if resp.aceptaProp %}
-                        <a class="btn btn-primary btn-sm" href="
-                           to:{{resp.mailRespuesta}}" role="button"><span class="glyphicon glyphicon-envelope" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+                        <a class="btn btn-primary btn-sm" href="mailto:{{resp.mailRespuesta}}?subject=Contacto desde ProposUP!" role="button"><span class="glyphicon glyphicon-envelope" style="color: green" aria-hidden="true"></span>   Contactar  </a>
                         {% else %}
 
                         <a style="color: darkred" class="btn btn-primary btn-sm disabled" href="#" role="button" data-toggle="tooltip" data-placement="top" title="Esta propuesta no fue aceptada, <p>por lo que, no podrás contactarte</p>"><span class="glyphicon glyphicon-zoom-in" style="color: green" aria-hidden="true"></span>   Contactar  </a>
