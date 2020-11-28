@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Propuestas vigentes{% endblock %}
@@ -87,7 +87,7 @@
             </div>
             <div class="collapse" id="{{resp.reproId}}Desp">
                 <div class="card card-body">
-                    <p>Esta REPROPuesta fue respondida el {{resp.fechaMovimiento}} y tiene vigencia hasta el {{resp.vencimiento}}</p>
+                    <p>Esta REPROPuesta fue respondida el {{resp.fechaMovimiento}}</p>
                     {% if resp.comentario %}
                     <p>{{resp.comentario}}</p>
                     {% else %}
@@ -96,7 +96,7 @@
 
 
 
-                    <p style="color: darkred"><i>Esta propuesta <b>FUE RECHAZADA</b></i></p>
+                    <p style="color: darkred">Lamentablemente, <i>Esta propuesta <b>FUE RECHAZADA</b></i></p>
 
 
                     <div style="text-align: center" class="card-footer text-muted">
@@ -104,7 +104,7 @@
                         <a class="btn btn-primary btn-sm" href="#" role="button"><span class="glyphicon glyphicon-envelope" style="color: green" aria-hidden="true"></span>   Contactar  </a>
                         {% else %}
 
-                        <a style="color: darkred" class="btn btn-primary btn-sm disabled" href="#" role="button" data-toggle="tooltip" data-placement="top" title="Esta propuesta no fue aceptada, <p>por lo que, no podrás contactarte</p>"><span class="glyphicon glyphicon-zoom-in" style="color: green" aria-hidden="true"></span>   Contactar  </a>
+                        <a style="color: darkred" class="btn btn-primary btn-sm disabled" href="#" role="button" data-toggle="tooltip" data-placement="top" title="Esta propuesta no fue aceptada, <p>por lo que, no podrás contactarte</p>"><span class="glyphicon-remove-sign" style="color: green" aria-hidden="true"></span>   Contactar  </a>
 
                         {% endif %}
                     </div>
